@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live data example</title>
+</head>
+<body class="bg-faded">
+<section>
+<p id="output"></p>
+
+
+<script src="socket.io.js"></script>
+
+
+<script>
+    var socket = io.connect('https://ws-api.iextrading.com/1.0/tops');
+
+    var output = document.getElementById('output');
+
+    function logScreen(text) {
+        var date = new Date().toISOString();
+        line = date + " " + text + "<br/>";
+        output.innerHTML = line + output.innerHTML
+    }
+
+    logScreen('Connecting');
+
+    socket.on('connect', function () {
+        // socket.emit('subscribe', 'aapl,AMZN');
+        socket.emit('subscribe', 'firehose');
+        logScreen('Connection! in socket on');
+    });
+
+    socket.on('message', logScreen);
+</script>
+    </section>
+
+</body>
+</html>
